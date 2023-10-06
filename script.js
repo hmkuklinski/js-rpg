@@ -175,11 +175,25 @@ function fightDragon() {
 function goFight() {
     update(locations[3]);
     monsterHealth = monsters[fighting].health;
+
+    /* --- When we aren't fighting monsters, we have the monster stats hidden, but want to make it visible when they
+    fight the monster!  ---
+        need to update its CSS property from display:none t0 display:block;
+    */
+   monsterStats.style.display = "block";
+   monsterNameText.innerText = monsters[fighting.name];
+   monsterHealthText.innerText = monsterHealth;
+
 }
 
 function attack() {
-
-}
+    text.innerText = "the " + monsters[fighting].name + " attacks.";
+    text.innerText = "You attack it with your " + weapons[currentWeapon].name + " .";
+    health -= monsters[fighting].level;
+    monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1; //random number times xp rounded down to nearest int and then add one
+    healthText.innerText = health; 
+    monsterHealthText.innerText = monsterHealth; 
+}   
 
 function dodge(){
 
