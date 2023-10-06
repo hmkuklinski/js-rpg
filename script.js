@@ -137,7 +137,7 @@ function buyHealth() {
         healthText.innerText = health;
     }
     else {
-        text.InnerText= "You do not have enough gold to buy health. ";
+        text.innerText= "You do not have enough gold to buy health. ";
     }
 }
 
@@ -147,10 +147,10 @@ function buyWeapon () {
             gold -= 30;
             currentWeapon++;
             goldText.innerText = gold;
-            let newWeapon = weapons[currentWeapon.name];
-            text.InnerText = "You now have a " + newWeapon + " .";
+            let newWeapon = weapons[currentWeapon].name; //name of the newWeapon from weapons array
+            text.innerText = "You now have a " + newWeapon + " .";
             inventory.push(newWeapon); //adds the name of the new weapon to the end of the inventory
-            text.InnerText += "In your inventory you have " + inventory;
+            text.innerText += "In your inventory you have " + inventory;
         }
         else {
             text.innerText = "You do not have enough gold to buy a weapon. ";
@@ -169,6 +169,7 @@ function sellWeapon(){
         goldText.innerText = gold;
         let currentWeapon = inventory.shift();
         text.innerText = "You sold a " + currentWeapon + " .";
+        text.innerText += " In your inventory you have: " + inventory;
     }
     else {
         text.innerText = "Don't sell your only weapon!";
@@ -200,15 +201,22 @@ function goFight() {
         need to update its CSS property from display:none t0 display:block;
     */
    monsterStats.style.display = "block";
-   monsterNameText.innerText = monsters[fighting.name];
+   monsterNameText.innerText = monsters[fighting].name;
    monsterHealthText.innerText = monsterHealth;
 
 }
 
 function attack() {
-    text.innerText = "the " + monsters[fighting].name + " attacks.";
-    text.innerText = "You attack it with your " + weapons[currentWeapon].name + " .";
-    health -= monsters[fighting].level;
+    text.innerText = "The " + monsters[fighting].name + " attacks.";
+    text.innerText += "You attack it with your " + weapons[currentWeapon].name + " .";
+    
+    if (isMonsterHit()) {
+        health -= getMonsterAttackValue(monsters[fighting].level);
+    }
+    else {
+        text.innerText += " You miss.";
+    }
+    
     monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1; //random number times xp rounded down to nearest int and then add one
     healthText.innerText = health; 
     monsterHealthText.innerText = monsterHealth; 
@@ -224,7 +232,17 @@ function attack() {
             defeatMonster();
         }
     }
-}   
+} 
+
+function getMonsterAttackValue (level){
+    let hit = (level * 5) - (Math.floor(Math.random()*xp));
+    console.log(hit);
+    return hit;
+}
+
+function isMonsterHit() {
+    return Math.random() > .2 || health <20;
+}
 
 function dodge(){
     text.innerText = "You dodge the attack from the " + monsters[fighting].name + " .";
@@ -239,7 +257,7 @@ function defeatMonster() {
     xp += monsters[fighting].level;
     goldText.innerText = gold;
     xpText.innerText = xp;
-    update[locations[4]];
+    update(locations[4]);
 }
 
 function restart (){
@@ -255,5 +273,5 @@ function restart (){
 }
 
 function winGame(){
-    update(location[6]);
+    update(locations[6]);
 }
