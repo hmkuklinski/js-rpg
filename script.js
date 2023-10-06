@@ -86,10 +86,6 @@ function goCave() {
     update(locations[2]);
 }
 
-function fightDragon() {
-    console.log("Fighting the dragon");
-}
-
 function buyHealth() {
     if (gold >= 10){
         gold -= 10;
@@ -131,6 +127,13 @@ function sellWeapon(){
         let currentWeapon = inventory.shift();
         text.innerText = "You sold a " + currentWeapon + " .";
     }
+    else {
+        text.innerText = "Don't sell your only weapon!";
+    }
+}
+
+function fightDragon() {
+    console.log("Fighting the dragon");
 }
 
 function fightSlime() {
