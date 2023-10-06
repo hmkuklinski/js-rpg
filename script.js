@@ -210,7 +210,12 @@ function attack() {
         lose();
     }
     else if (monsterHealth <=0){
-        defeatMonster();
+        if (fighting == 2){ //what if they defeat the highest level monster- dragon?
+            winGame();
+        }
+        else { //defeat a monster, but not final monster- dragon
+            defeatMonster();
+        }
     }
 }   
 
