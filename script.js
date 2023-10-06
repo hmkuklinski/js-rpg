@@ -1,7 +1,7 @@
 let xp = 0;
 let health = 100;
 let gold = 50;
-let currentWeapon = 0;
+let currentWeapon = 0; //corresponds to index in weapons array
 let fighting;
 let monsterHealth;
 let inventory = ["stick"]; //want to start it as an array to later add elements
@@ -103,7 +103,34 @@ function buyHealth() {
 }
 
 function buyWeapon () {
+    if (currentWeapon < weapons.length-1){ 
+        if (gold >= 30) {
+            gold -= 30;
+            currentWeapon++;
+            goldText.innerText = gold;
+            let newWeapon = weapons[currentWeapon.name];
+            text.InnerText = "You now have a " + newWeapon + " .";
+            inventory.push(newWeapon); //adds the name of the new weapon to the end of the inventory
+            text.InnerText += "In your inventory you have " + inventory;
+        }
+        else {
+            text.innerText = "You do not have enough gold to buy a weapon. ";
+        }
+    }
+    else {
+        text.innerText = "You already have the most powerful weapon!";
+        button2.innerText = "Sell weapon for 15 gold";
+        button2.onclick = sellWeapon;
+    }
+}
 
+function sellWeapon(){
+    if (inventory.length > 1){
+        gold += 15;
+        goldText.innerText = gold;
+        let currentWeapon = inventory.shift();
+        text.innerText = "You sold a " + currentWeapon + " .";
+    }
 }
 
 function fightSlime() {
